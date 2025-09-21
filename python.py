@@ -38,3 +38,21 @@ class StockAnalyzer:
             print(f"Successfully fetched {len(self.data)} days of data for {self.symbol}")  # Print success message with data count
         except Exception as e:  # Catch any error that occurs during download
             raise Exception(f"Error fetching data for {self.symbol}: {str(e)}")  # Raise error with details
+        
+    def simple_moving_average(self, window: int) -> pd.Series:
+        """
+        Calculate Simple Moving Average (SMA) for closing prices.
+        
+        Args:
+            window (int): Number of periods for SMA calculation
+            
+        Returns:
+            pd.Series: SMA values
+        """
+        if window <= 0:  # Check if window size is invalid (zero or negative)
+            raise ValueError("Window size must be positive")  # Raise error if invalid
+        if window > len(self.data):  # Check if window is larger than available data
+            raise ValueError("Window size cannot be larger than data length")  # Raise error if too large
+        
+        return self.data['Close'].rolling(window=window).mean()  # Calculate rolling mean of closing prices
+    
