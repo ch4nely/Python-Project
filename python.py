@@ -26,4 +26,15 @@ class StockAnalyzer:
         self.period = period  # Store the time period (e.g., '3y' for 3 years)
         self.data = None  # Initialize data as None, will be filled by _fetch_data()
         self._fetch_data()  # Call the private method to download stock data
-    
+
+
+    def _fetch_data(self):
+        """Fetch stock data using yfinance."""
+        try:  # Try to download the stock data
+            ticker = yf.Ticker(self.symbol)  # Create a yfinance Ticker object for the stock symbol
+            self.data = ticker.history(period=self.period)  # Download historical data for the specified period
+            if self.data.empty:  # Check if no data was downloaded
+                raise ValueError(f"No data found for symbol {self.symbol}")  # Raise error if no data
+            print(f"Successfully fetched {len(self.data)} days of data for {self.symbol}")  # Print success message with data count
+        except Exception as e:  # Catch any error that occurs during download
+            raise Exception(f"Error fetching data for {self.symbol}: {str(e)}")  # Raise error with details
