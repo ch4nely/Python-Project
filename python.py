@@ -115,4 +115,43 @@ class StockAnalyzer:
         """
         returns = self.data['Close'].pct_change() * 100  # Calculate percentage change and convert to percentage
         return returns  # Return the daily returns series
+        
+def max_profit(self) -> Tuple[float, List[Tuple[int, int]]]:
+        """
+        Calculate maximum profit using Best Time to Buy and Sell Stock II algorithm.
+        Allows multiple transactions.
+        
+        Returns:
+            Tuple[float, List[Tuple[int, int]]]: Maximum profit and list of buy/sell pairs
+        """
+        prices = self.data['Close'].values  # Get closing prices as numpy array
+        n = len(prices)  # Get total number of days
+        
+        if n < 2:  # Need at least 2 days to buy and sell
+            return 0.0, []  # Return zero profit and empty list if insufficient data
+        
+        profit = 0.0  # Initialize total profit to zero
+        buy_sell_pairs = []  # List to store (buy_day, sell_day) pairs
+        buy_price = None  # Track current buy price (None means no position)
+        buy_index = None  # Track current buy day index
+        
+        for i in range(n - 1):  # Loop through all days except the last one
+            # If we don't have a position and tomorrow's price is higher, buy today
+            if buy_price is None and prices[i] < prices[i + 1]:  # No position and price will rise
+                buy_price = prices[i]  # Set buy price to today's price
+                buy_index = i  # Remember which day we bought
+            
+            # If we have a position and tomorrow's price is lower, sell today
+            elif buy_price is not None and prices[i] > prices[i + 1]:  # Have position and price will fall
+                profit += prices[i] - buy_price  # Add profit from this transaction
+                buy_sell_pairs.append((buy_index, i))  # Record this buy/sell pair
+                buy_price = None  # Clear position
+                buy_index = None  # Clear buy index
+        
+        # If we still have a position at the end, sell it
+        if buy_price is not None:  # If we still own stock on the last day
+            profit += prices[-1] - buy_price  # Sell at last day's price
+            buy_sell_pairs.append((buy_index, n - 1))  # Record final transaction
+        
+        return profit, buy_sell_pairs  # Return total profit and all transaction pairs
 
