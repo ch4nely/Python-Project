@@ -105,4 +105,14 @@ class StockAnalyzer:
             'upward_run_count': len(upward_runs),  # Number of upward runs
             'downward_run_count': len(downward_runs)  # Number of downward runs
         }
-    
+
+    def calculate_daily_returns(self) -> pd.Series:
+        """
+        Calculate simple daily returns.
+
+        Returns:
+            pd.Series: Daily returns as percentage
+        """
+        returns = self.data['Close'].pct_change() * 100  # Calculate percentage change and convert to percentage
+        return returns  # Return the daily returns series
+
