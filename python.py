@@ -116,7 +116,7 @@ class StockAnalyzer:
         returns = self.data['Close'].pct_change() * 100  # Calculate percentage change and convert to percentage
         return returns  # Return the daily returns series
         
-def max_profit(self) -> Tuple[float, List[Tuple[int, int]]]:
+    def max_profit(self) -> Tuple[float, List[Tuple[int, int]]]:
         """
         Calculate maximum profit using Best Time to Buy and Sell Stock II algorithm.
         Allows multiple transactions.
@@ -155,3 +155,30 @@ def max_profit(self) -> Tuple[float, List[Tuple[int, int]]]:
         
         return profit, buy_sell_pairs  # Return total profit and all transaction pairs
 
+
+    def plot_price_and_sma(self, sma_window: int = 20):
+        """
+        Plot closing price and SMA on the same chart.
+
+        Args:
+            sma_window (int): Window size for SMA calculation
+        """
+        plt.figure(figsize=(12, 8))
+
+        # Calculate SMA
+        sma = self.simple_moving_average(sma_window)
+
+        # Plot closing price
+        plt.plot(self.data.index, self.data['Close'], label=f'{self.symbol} Closing Price', linewidth=2)
+
+        # Plot SMA
+        plt.plot(self.data.index, sma, label=f'SMA({sma_window})', linewidth=2, alpha=0.8)
+
+        plt.title(f'{self.symbol} Stock Price and Simple Moving Average', fontsize=16)
+        plt.xlabel('Date', fontsize=12)
+        plt.ylabel('Price ($)', fontsize=12)
+        plt.legend()
+        plt.grid(True, alpha=0.3)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
