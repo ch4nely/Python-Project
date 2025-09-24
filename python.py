@@ -256,5 +256,31 @@ class StockAnalyzer:
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
+
+    def plot_daily_returns(self):
+        """
+        Plot daily returns as a histogram and time series.
+        """
+        returns = self.calculate_daily_returns()
+        
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
+        
+        # Histogram
+        ax1.hist(returns.dropna(), bins=50, alpha=0.7, color='skyblue', edgecolor='black')
+        ax1.set_title(f'{self.symbol} Daily Returns Distribution', fontsize=14)
+        ax1.set_xlabel('Daily Returns (%)', fontsize=12)
+        ax1.set_ylabel('Frequency', fontsize=12)
+        ax1.grid(True, alpha=0.3)
+        
+        # Time series
+        ax2.plot(self.data.index, returns, color='purple', linewidth=1)
+        ax2.set_title(f'{self.symbol} Daily Returns Over Time', fontsize=14)
+        ax2.set_xlabel('Date', fontsize=12)
+        ax2.set_ylabel('Daily Returns (%)', fontsize=12)
+        ax2.grid(True, alpha=0.3)
+        ax2.axhline(y=0, color='red', linestyle='--', alpha=0.5)
+        
+        plt.tight_layout()
+        plt.show()
     
-    
+
