@@ -182,3 +182,79 @@ class StockAnalyzer:
         plt.xticks(rotation=45)
         plt.tight_layout()
         plt.show()
+
+    def plot_runs(self):
+        """
+        Plot stock price with upward and downward runs highlighted.
+        """
+        plt.figure(figsize=(15, 8))
+        
+        # Calculate price changes
+        price_changes = self.data['Close'].diff()
+        
+        # Create color map for runs
+        colors = []
+        for change in price_changes:
+            if change > 0:
+                colors.append('green')
+            elif change < 0:
+                colors.append('red')
+            else:
+                colors.append('gray')
+        
+        # Plot price line
+        plt.plot(self.data.index, self.data['Close'], color='black', linewidth=1, alpha=0.7)
+        
+        # Plot colored segments for runs
+        for i in range(1, len(self.data)):
+            if colors[i] != 'gray':
+                plt.plot([self.data.index[i-1], self.data.index[i]], 
+                        [self.data['Close'].iloc[i-1], self.data['Close'].iloc[i]], 
+                        color=colors[i], linewidth=3, alpha=0.8)
+        
+        plt.title(f'{self.symbol} Stock Price with Upward (Green) and Downward (Red) Runs', fontsize=16)
+        plt.xlabel('Date', fontsize=12)
+        plt.ylabel('Price ($)', fontsize=12)
+        plt.grid(True, alpha=0.3)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
+
+    def plot_runs(self):
+        """
+        Plot stock price with upward and downward runs highlighted.
+        """
+        plt.figure(figsize=(15, 8))
+        
+        # Calculate price changes
+        price_changes = self.data['Close'].diff()
+        
+        # Create color map for runs
+        colors = []
+        for change in price_changes:
+            if change > 0:
+                colors.append('green')
+            elif change < 0:
+                colors.append('red')
+            else:
+                colors.append('gray')
+        
+        # Plot price line
+        plt.plot(self.data.index, self.data['Close'], color='black', linewidth=1, alpha=0.7)
+        
+        # Plot colored segments for runs
+        for i in range(1, len(self.data)):
+            if colors[i] != 'gray':
+                plt.plot([self.data.index[i-1], self.data.index[i]], 
+                        [self.data['Close'].iloc[i-1], self.data['Close'].iloc[i]], 
+                        color=colors[i], linewidth=3, alpha=0.8)
+        
+        plt.title(f'{self.symbol} Stock Price with Upward (Green) and Downward (Red) Runs', fontsize=16)
+        plt.xlabel('Date', fontsize=12)
+        plt.ylabel('Price ($)', fontsize=12)
+        plt.grid(True, alpha=0.3)
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+        plt.show()
+    
+    
