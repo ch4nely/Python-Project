@@ -282,5 +282,179 @@ class StockAnalyzer:
         
         plt.tight_layout()
         plt.show()
+
+    def generate_report(self, sma_window: int = 20):
+        """
+        Generate a comprehensive analysis report.
+        
+        Args:
+            sma_window (int): Window size for SMA calculation
+        """
+        print(f"\n{'='*60}")
+        print(f"STOCK ANALYSIS REPORT FOR {self.symbol}")
+        print(f"{'='*60}")
+        
+        # Basic statistics
+        print(f"\nData Period: {self.data.index[0].strftime('%Y-%m-%d')} to {self.data.index[-1].strftime('%Y-%m-%d')}")
+        print(f"Total Trading Days: {len(self.data)}")
+        print(f"Current Price: ${self.data['Close'].iloc[-1]:.2f}")
+        print(f"Price Range: ${self.data['Close'].min():.2f} - ${self.data['Close'].max():.2f}")
+        
+        # SMA Analysis
+        sma = self.simple_moving_average(sma_window)
+        current_sma = sma.iloc[-1]
+        print(f"\nSimple Moving Average ({sma_window} days): ${current_sma:.2f}")
+        
+        # Runs Analysis
+        runs = self.analyze_runs()
+        print(f"\nRUNS ANALYSIS:")
+        print(f"Total Upward Days: {runs['total_upward_days']}")
+        print(f"Total Downward Days: {runs['total_downward_days']}")
+        print(f"Longest Upward Streak: {runs['longest_upward_streak']} days")
+        print(f"Longest Downward Streak: {runs['longest_downward_streak']} days")
+        print(f"Number of Upward Runs: {runs['upward_run_count']}")
+        print(f"Number of Downward Runs: {runs['downward_run_count']}")
+        
+        # Daily Returns Analysis
+        returns = self.calculate_daily_returns()
+        print(f"\nDAILY RETURNS ANALYSIS:")
+        print(f"Average Daily Return: {returns.mean():.4f}%")
+        print(f"Standard Deviation: {returns.std():.4f}%")
+        print(f"Best Day: {returns.max():.4f}%")
+        print(f"Worst Day: {returns.min():.4f}%")
+        
+        # Max Profit Analysis
+        max_profit, buy_sell_pairs = self.max_profit()
+        print(f"\nMAXIMUM PROFIT ANALYSIS:")
+        print(f"Maximum Possible Profit: ${max_profit:.2f}")
+        print(f"Number of Transactions: {len(buy_sell_pairs)}")
+        
+        if buy_sell_pairs:
+            print("Buy/Sell Pairs (Index, Date):")
+            for buy_idx, sell_idx in buy_sell_pairs[:5]:  # Show first 5
+                buy_date = self.data.index[buy_idx].strftime('%Y-%m-%d')
+                sell_date = self.data.index[sell_idx].strftime('%Y-%m-%d')
+                buy_price = self.data['Close'].iloc[buy_idx]
+                sell_price = self.data['Close'].iloc[sell_idx]
+                profit = sell_price - buy_price
+                print(f"  Buy: {buy_date} (${buy_price:.2f}) -> Sell: {sell_date} (${sell_price:.2f}) | Profit: ${profit:.2f}")
+        
+        print(f"\n{'='*60}")
+
+
+    def validate_calculations():
+        """
+        Validate calculations with test cases to ensure correctness.
+        """
+        print("\n" + "="*60)
+        print("VALIDATION TESTS")
+        print("="*60)
     
+        # Test with a well-known stock
+        try:
+            analyzer = StockAnalyzer("AAPL", "1y")
+        
+            # Test 1: SMA validation against pandas rolling mean
+            print("\nTest 1: SMA Validation - Your Implementation vs Pandas Reference")
+            print("-" * 60)
+            sma_5 = analyzer.simple_moving_average(5)
+            sma_5_pandas = analyzer.data['Close'].rolling(window=5).mean()
+            sma_match = np.allclose(sma_5.dropna(), sma_5_pandas.dropna(), rtol=1e-10)
+        
+            # Show side-by-side comparison
+            comparison_df = pd.DataFrame({
+                'Your SMA(5)': sma_5.tail(10),
+                'Pandas SMA(5)': sma_5_pandas.tail(10)
+            })
+            print("Last 10 values comparison:")
+            print(comparison_df.round(4))
+            print(f"\n✅ Result: Your implementation {'MATCHES' if sma_match else 'DIFFERS FROM'} pandas reference")
+        
+            # Test 2: Daily returns validation
+            print("\nTest 2: Daily Returns Validation - Your Implementation vs Pandas Reference")
+            print("-" * 60)
+            returns_custom = analyzer.calculate_daily_returns()
+            returns_pandas = analyzer.data['Close'].pct_change() * 100
+            returns_match = np.allclose(returns_custom.dropna(), returns_pandas.dropna(), rtol=1e-10)
+        
+            # Show side-by-side comparison
+            returns_df = pd.DataFrame({
+                'Your Returns (%)': returns_custom.tail(10),
+                'Pandas Returns (%)': returns_pandas.tail(10)
+            })
+            print("Last 10 daily returns comparison:")
+            print(returns_df.round(4))
+            print(f"\n✅ Result: Your implementation {'MATCHES' if returns_match else 'DIFFERS FROM'} pandas reference")
+        
+            # Test 3: Runs analysis with known data
+            print("\nTest 3: Runs Analysis Validation")
+            runs = analyzer.analyze_runs()
+            price_changes = analyzer.data['Close'].diff()
+            upward_days_manual = (price_changes > 0).sum()
+            downward_days_manual = (price_changes < 0).sum()
+            print(f"Upward days count matches: {runs['total_upward_days'] == upward_days_manual}")
+            print(f"Downward days count matches: {runs['total_downward_days'] == downward_days_manual}")
+        
+            # Test 4: Max profit with simple case
+            print("\nTest 4: Max Profit Validation")
+            # Create a simple test case: [1, 2, 3, 2, 1] should give profit of 2
+            test_prices = pd.Series([1, 2, 3, 2, 1])
+            test_analyzer = StockAnalyzer.__new__(StockAnalyzer)
+            test_analyzer.data = pd.DataFrame({'Close': test_prices})
+            test_profit, test_pairs = test_analyzer.max_profit()
+            expected_profit = 2.0  # Buy at 1, sell at 3
+            print(f"Simple test case profit matches: {abs(test_profit - expected_profit) < 1e-10}")
+        
+            # Test 5: Edge case - single day data
+            print("\nTest 5: Edge Case Validation")
+            single_day_data = pd.DataFrame({'Close': [100]}, index=[pd.Timestamp('2023-01-01')])
+            test_analyzer.data = single_day_data
+            try:
+                sma_edge = test_analyzer.simple_moving_average(5)
+                print("SMA with insufficient data handled correctly: False")
+            except ValueError:
+                print("SMA with insufficient data handled correctly: True")
+        
+            print("\nAll validation tests completed!")
+        
+        except Exception as e:
+            print(f"Validation failed with error: {e}")
+
+
+# =============================================================================
+# END OF STOCK ANALYZER CLASS
+# =============================================================================
+
+
+    if __name__ == "__main__":
+        # Example usage
+        print("Stock Market Trend Analysis Tool")
+        print("=" * 40)
+    
+        # Validate calculations first
+        validate_calculations()
+    
+        # Example analysis
+        try:
+            # Analyze Apple stock
+            analyzer = StockAnalyzer("AAPL", "2y")
+        
+            # Generate comprehensive report
+            analyzer.generate_report(sma_window=20)
+        
+            # Create visualizations
+            print("\nGenerating visualizations...")
+            analyzer.plot_price_and_sma(sma_window=20)
+            analyzer.plot_runs()
+            analyzer.plot_daily_returns()
+        
+        except Exception as e:
+            print(f"Error during analysis: {e}")
+       
+
+
+   
+
+
+
 
