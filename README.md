@@ -57,10 +57,12 @@ The batch file automatically installs missing dependencies and provides a user-f
 3. Set the moving average window with the slider
 4. Click "Analyze Stock" to download data and run analysis
 5. Explore the results in the different tabs:
-   - **Price Chart**: Shows stock price with moving average
+   - **Price Chart**: Shows stock price with moving average (interactive slider)
    - **Statistics**: Basic stock information
    - **Returns**: Daily percentage changes
    - **Profit Analysis**: Maximum profit calculations and trend analysis
+   - **Runs Analysis**: Visualizes upward/downward price streaks
+   - **Validation Tests**: Demonstrates algorithm correctness with test cases
 
 The moving average slider in the Price Chart tab updates the chart in real-time, so you can experiment with different window sizes.
 
@@ -70,11 +72,13 @@ Click "Help" in the sidebar for detailed instructions and a list of common stock
 ## Project Files
 Here's what each file does:
 
-- `webapp.py` - The main web interface built with Streamlit
+- `webapp.py` - The main web interface built with Streamlit (includes validation tab)
 - `stock_analyzer.py` - Contains the core analysis functionality with the `FinancialTrendAnalyzer` class
-- `demo_validation.py` - Interactive demo and validation tool
+- `demo_validation.py` - Interactive demo and validation tool with comprehensive testing
 - `start_stock_analysis.bat` - Main launcher with dependency management
 - `package/dependency_manager.py` - Handles automatic package installation
+- `requirements.txt` - Lists all required Python packages with versions
+- `README.md` - This documentation file
 
 ## Using the Code Programmatically
 
@@ -99,6 +103,9 @@ analyzer.visualize_daily_returns()
 
 # Generate comprehensive report
 analyzer.create_comprehensive_report()
+
+# Run validation tests
+validate_all_calculations()
 ```
 
 
@@ -119,9 +126,11 @@ Make sure the file isn't too large and try with a smaller file first.
 This project demonstrates:
 - Working with stock market data using yfinance
 - Creating interactive web applications with Streamlit
-- Data analysis and visualization with pandas and matplotlib
+- Data analysis and visualization with pandas, matplotlib, and seaborn
 - Financial concepts like moving averages, returns, and volatility
 - Python programming including functions, error handling, and data visualization
+- Comprehensive validation and testing methodologies
+- Professional code organization and documentation
 
 ## Edge Cases and Behavior
 
@@ -144,21 +153,32 @@ The `FinancialTrendAnalyzer` class handles several edge cases gracefully:
 - **Runs Analysis**: Returns empty lists for insufficient data
 
 ## Validation and Testing
-The `demo_validation.py` file includes comprehensive validation tests to ensure all calculations are working correctly. You can run it standalone or use the validation functions in your own code.
 
-Run the validation tool:
+The project includes comprehensive validation to ensure all calculations are working correctly:
+
+### Web Application Validation
+The webapp includes a **Validation Tests** tab that runs all validation tests with a single click:
+- **Interactive Interface**: Click "Run All Validation Tests" to execute all tests
+- **Real-time Results**: See validation results formatted in a code block
+- **Persistent Results**: Results stay visible until manually cleared
+- **No Tab Jumping**: Validation runs without changing tabs
+
+### Command Line Validation
+Run the standalone validation tool:
 ```bash
 python demo_validation.py
 ```
 
-This will run through various tests including:
-- SMA validation against pandas reference
-- Daily returns validation
-- Runs analysis with real and synthetic data
-- Max profit algorithm validation
-- Edge case testing
+### Validation Test Coverage
+Both interfaces run the same comprehensive tests:
+- **Test 1**: SMA validation against pandas reference
+- **Test 2**: Daily returns validation against pandas pct_change()
+- **Test 3**: Runs analysis validation with real stock data
+- **Test 4**: Synthetic data validation with known expected results
+- **Test 5**: Max profit algorithm validation with simple test case
+- **Test 6**: Edge case validation (error handling)
 
-The validation includes synthetic data tests with known expected results to ensure algorithm correctness.
+The validation includes synthetic data tests with known expected results to ensure algorithm correctness. All tests compare our implementations against trusted references like pandas.
 
 ## Support
 If you run into issues:
