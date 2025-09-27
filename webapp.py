@@ -11,7 +11,7 @@ import streamlit as st  # For creating the web interface
 import pandas as pd     # For working with data
 import matplotlib.pyplot as plt  # For creating charts
 import plotly.express as px  # For interactive charts
-from stock_analyzer import FinancialTrendAnalyzer  # Import the FinancialTrendAnalyzer class
+from stock_analyzer import FinancialTrendAnalyzer, validate_all_calculations  # Import the FinancialTrendAnalyzer class and validation
 
 # Set the page title and icon
 st.set_page_config(
@@ -102,7 +102,7 @@ if page == "Stock Analysis":
         period = st.session_state['time_period']
         
         # Create tabs for different analysis
-        tab1, tab2, tab3, tab4, tab5 = st.tabs(["📈 Price Chart", "📊 Statistics", "📉 Returns", "💰 Profit Analysis", "🔥 Runs Analysis"])
+        tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["📈 Price Chart", "📊 Statistics", "📉 Returns", "💰 Profit Analysis", "🔥 Runs Analysis", "🔍 Validation Tests"])
         
         with tab1:
             # Price chart tab
@@ -325,6 +325,71 @@ if page == "Stock Analysis":
             runs_df = pd.DataFrame(runs_summary)
             st.dataframe(runs_df, width='stretch')
 
+        with tab6:
+            # Validation Tests tab
+            st.subheader("🔍 Validation Tests")
+            
+            st.write("""
+            This tab demonstrates how our algorithms are validated against trusted sources and known test cases.
+            Each validation test ensures our implementation produces correct results.
+            """)
+            
+            # Initialize validation state in session state
+            if 'validation_completed' not in st.session_state:
+                st.session_state['validation_completed'] = False
+            if 'validation_output' not in st.session_state:
+                st.session_state['validation_output'] = ""
+            
+            # Use a form to prevent page refresh and tab jumping
+            with st.form("validation_form", clear_on_submit=False):
+                col1, col2, col3 = st.columns([1, 2, 1])
+                with col2:
+                    run_validation = st.form_submit_button("🧪 Run All Validation Tests", type="primary", use_container_width=True)
+            
+            # Run validation if button was clicked
+            if run_validation:
+                with st.spinner("Running validation tests... This may take a moment."):
+                    # Capture the output from validate_all_calculations
+                    import io
+                    import contextlib
+                    
+                    f = io.StringIO()
+                    with contextlib.redirect_stdout(f):
+                        validate_all_calculations()
+                    
+                    # Store results in session state
+                    st.session_state['validation_output'] = f.getvalue()
+                    st.session_state['validation_completed'] = True
+                
+                # Show completion message
+                st.success("🎉 **All validation tests completed!**")
+            
+            # Display validation results if they exist
+            if st.session_state['validation_completed'] and st.session_state['validation_output']:
+                st.subheader("📋 Validation Test Results")
+                
+                # Display the captured output in a nice format
+                st.code(st.session_state['validation_output'], language="text")
+                
+                # Add explanation section
+                st.info("""
+                **What These Tests Prove:**
+                - Our SMA calculation matches pandas (industry standard)
+                - Our daily returns formula is mathematically correct
+                - Our runs analysis logic counts correctly
+                - Our synthetic data tests verify algorithm correctness
+                - Our max profit algorithm implements the optimal strategy
+                - Our edge case handling prevents invalid operations
+                
+                These validations ensure our stock analysis tool produces reliable, accurate results.
+                """)
+                
+                # Add a button to clear results
+                if st.button("🗑️ Clear Results", type="secondary"):
+                    st.session_state['validation_completed'] = False
+                    st.session_state['validation_output'] = ""
+                    st.rerun()
+
 elif page == "Help":
     # Help page
     st.header("❓ Help and Instructions")
@@ -350,6 +415,7 @@ elif page == "Help":
         - Returns: Daily percentage changes
         - Profit Analysis: Maximum profit and trend analysis
         - Runs Analysis: Visualizes upward/downward price streaks
+        - Validation Tests: Demonstrates algorithm correctness with test cases
     
     **4. Adjust Moving Average:**
     - After analyzing, use the slider in the Price Chart tab
@@ -362,6 +428,15 @@ elif page == "Help":
     - **Volatility**: How much the price fluctuates (higher = more risky)
     - **Maximum Profit**: Best possible profit if you bought/sold optimally
     - **Runs**: Consecutive days of price increases or decreases
+    - **Validation Tests**: Proves our algorithms work correctly with test cases
+    
+    **Validation Tests Tab:**
+    - **Test 1**: SMA validation against pandas reference
+    - **Test 2**: Daily returns validation against pandas pct_change()
+    - **Test 3**: Runs analysis validation with real stock data
+    - **Test 4**: Synthetic data validation with known expected results
+    - **Test 5**: Max profit algorithm validation with simple test case
+    - **Test 6**: Edge case validation (error handling)
     """)
     
     st.subheader("Common Stock Symbols:")
