@@ -413,11 +413,11 @@ def validate_all_calculations(): # VALIDATION FUNCTION
         
         # Expected results based on synthetic data
         expected_upward_runs = [3, 4]  # 3-day run (10->11->12->13), 4-day run (8->9->10->11->12)
-        expected_downward_runs = [3]   # 3-day run (13->12->11->10->9->8)
+        expected_downward_runs = [5]   # 5-day run (13->12->11->10->9->8)
         expected_total_upward_days = 7  # 3 + 4
-        expected_total_downward_days = 3  # 3
+        expected_total_downward_days = 5  # 5
         expected_longest_upward = 4
-        expected_longest_downward = 3
+        expected_longest_downward = 5
         
         print(f"Synthetic data upward runs: {synthetic_runs['upward_runs']}")
         print(f"Expected upward runs: {expected_upward_runs}")
