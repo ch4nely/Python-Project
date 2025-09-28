@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 """
-Consolidated Demo & Validation Tool
+Demo Tool
 This script combines comprehensive demonstration and validation functionality
 with user interface options and automatic dependency management.
+
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 # Auto-install dependencies if missing
