@@ -1,3 +1,6 @@
+# Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+# INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
+
 # Stock Market Analysis Tool
 A simple web application for analyzing stock market trends and patterns. 
 
@@ -161,7 +164,6 @@ The webapp includes a **Validation Tests** tab that runs all validation tests wi
 - **Interactive Interface**: Click "Run All Validation Tests" to execute all tests
 - **Real-time Results**: See validation results formatted in a code block
 - **Persistent Results**: Results stay visible until manually cleared
-- **No Tab Jumping**: Validation runs without changing tabs
 
 ### Command Line Validation
 Run the standalone validation tool:
