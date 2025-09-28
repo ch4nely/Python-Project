@@ -1,3 +1,8 @@
+
+::Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+::INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
+
+
 @echo off
 title Stock Analysis Project
 color 0A
