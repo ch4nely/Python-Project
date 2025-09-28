@@ -9,8 +9,8 @@ This module provides comprehensive stock market analysis functionality including
 - Data visualization
 - Validation and testing
 
-Author: Stock Analysis Project
-Date: 2025
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 # Import required libraries for stock analysis
