@@ -1,6 +1,9 @@
 """
 Stock Analysis Web App
 This is a simple web application using Streamlit for stock market analysis
+
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 # Auto-install dependencies if missing
