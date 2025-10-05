@@ -35,9 +35,9 @@ Double-click `start_stock_analysis.bat` to automatically install dependencies an
 
 ### Running the Application
 
-**Option 1: Console Validation Tool**
+**Option 1: Console Demo & Validation Tool**
 ```bash
-python demo_validation.py
+python demo.py
 ```
 
 **Option 2: Streamlit Web Application**
@@ -49,7 +49,7 @@ The app will be available at `http://localhost:8501` in your browser.
 **Option 3: Windows Batch File (Recommended for Windows users)**
 1. Double-click `start_stock_analysis.bat`
 2. Choose option 1 for the web application
-3. Choose option 2 for the console validation tool
+3. Choose option 2 for the console demo & validation tool
 
 The batch file automatically installs missing dependencies and provides a user-friendly interface.
 
@@ -76,8 +76,13 @@ Click "Help" in the sidebar for detailed instructions and a list of common stock
 Here's what each file does:
 
 - `webapp.py` - The main web interface built with Streamlit (includes validation tab)
-- `stock_analyzer.py` - Contains the core analysis functionality with the `FinancialTrendAnalyzer` class
-- `demo_validation.py` - Interactive demo and validation tool with comprehensive testing
+- `combined_analyzer.py` - Combines data fetching, computing, and visualization
+- `data_fetching.py` - Fetches historical market data
+- `computing.py` - SMA, runs, returns, and max profit calculations
+- `visualizations.py` - Plotting utilities for price, runs, and returns
+- `reporting.py` - Reporting-ready `FinancialTrendAnalyzer` with comprehensive report and CLI-style main
+- `validation.py` - Validation tests (`validate_all_calculations`)
+- `demo.py` - Interactive demo and validation tool with comprehensive testing
 - `start_stock_analysis.bat` - Main launcher with dependency management
 - `package/dependency_manager.py` - Handles automatic package installation
 - `requirements.txt` - Lists all required Python packages with versions
@@ -88,7 +93,7 @@ Here's what each file does:
 If you want to use the analysis functions in your own code:
 
 ```python
-from stock_analyzer import FinancialTrendAnalyzer
+from reporting import FinancialTrendAnalyzer
 
 # Create analyzer instance
 analyzer = FinancialTrendAnalyzer("AAPL", "1y")
@@ -108,6 +113,7 @@ analyzer.visualize_daily_returns()
 analyzer.create_comprehensive_report()
 
 # Run validation tests
+from validation import validate_all_calculations
 validate_all_calculations()
 ```
 
@@ -165,10 +171,10 @@ The webapp includes a **Validation Tests** tab that runs all validation tests wi
 - **Real-time Results**: See validation results formatted in a code block
 - **Persistent Results**: Results stay visible until manually cleared
 
-### Command Line Validation
-Run the standalone validation tool:
+### Command Line Demo & Validation
+Run the standalone demo & validation tool:
 ```bash
-python demo_validation.py
+python demo.py
 ```
 
 ### Validation Test Coverage

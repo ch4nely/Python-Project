@@ -90,7 +90,7 @@ echo - Interactive demo with plots
 echo - Validation tests (your calculations vs reference)
 echo - Comprehensive automated demo
 echo.
-python demo_validation.py
+python demo.py
 echo.
 echo Demo tool completed. Press any key to return to main menu...
 pause >nul

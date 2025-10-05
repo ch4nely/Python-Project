@@ -14,7 +14,8 @@ import streamlit as st  # For creating the web interface
 import pandas as pd     # For working with data
 import matplotlib.pyplot as plt  # For creating charts
 import plotly.express as px  # For interactive charts
-from stock_analyzer import FinancialTrendAnalyzer, validate_all_calculations  # Import the FinancialTrendAnalyzer class and validation
+from combined_analyzer import FinancialTrendAnalyzer
+from validation import validate_all_calculations  # Import validation function
 
 # Set the page title and icon
 st.set_page_config(
