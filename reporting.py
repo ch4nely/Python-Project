@@ -1,5 +1,7 @@
 """
 Stock Market Trend Analysis Reporting
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 import matplotlib.pyplot as plt

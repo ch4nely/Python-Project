@@ -1,5 +1,7 @@
 """
 Validation module for verifying calculations of FinancialTrendAnalyzer.
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 import pandas as pd

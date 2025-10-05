@@ -1,5 +1,8 @@
 """
 Data fetching and initializer for FinancialTrendAnalyzer
+
+Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
 # Import required libraries for stock analysis
