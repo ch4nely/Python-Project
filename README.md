@@ -6,12 +6,12 @@
 - [Understanding the Results](#understanding-the-results)
 - [Requirements](#requirements)
 - [Getting Started](#getting-started)
-- [Architecture](#architecture)
-- [Quick Start](#quick-start-windows)
-- [How to Use](#how-to-use)
-- [Project Files](#project-files)
-- [Using the Code Programmatically](#using-the-code-programmatically)
-- [Troubleshooting](#troubleshooting)
+   - [Architecture](#architecture)
+   - [Quick Start](#quick-start-windows)
+   - [How to Use](#how-to-use)
+   - [Project Files](#project-files)
+   - [Using the Code Programmatically](#using-the-code-programmatically)
+   - [Troubleshooting](#troubleshooting)
 - [Edge Cases and Behavior](#edge-cases-and-behavior)
 - [Validation and Testing](#validation-and-testing)
 - [Support](#support)
@@ -38,7 +38,7 @@ Built with Python and Streamlit, this tool lets you explore;
 - **Python**: Version 3.7 or higher
 - **Dependencies**: Automatically installed via `package/dependency_manager.py`
 
-## Getting Started
+# Getting Started
 
 ## Architecture
 ```mermaid
