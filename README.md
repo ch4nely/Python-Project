@@ -37,7 +37,7 @@ Built with Python and Streamlit, this tool lets you explore;
 - Runs: Consecutive days of price increases or decreases
 
 ## Requirements
-- **Python**: Version 3.10 or higher
+- **Python**: Version 3.7 or higher
 - **Dependencies**: Automatically installed via `package/dependency_manager.py`
 
 ## Getting Started
