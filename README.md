@@ -225,9 +225,6 @@ Check if the stock symbol is correct. Try popular symbols like AAPL, GOOGL, MSFT
 **Web app won't start:**
 Make sure you're in the correct directory and run `streamlit run webapp.py`
 
-**File upload issues:**
-Make sure the file isn't too large and try with a smaller file first.
-
 This project demonstrates:
 - Working with stock market data using yfinance
 - Creating interactive web applications with Streamlit
