@@ -121,18 +121,39 @@ if page == "Stock Analysis":
             
             # Interactive moving average slider
             st.write("**Adjust Moving Average Window:**")
-            interactive_sma_window = st.slider(
-                "Moving Average Days:",
-                min_value=5,
-                max_value=min(100, len(data)),
-                value=20,  # Default to 20 days
-                step=1,
-                key="interactive_sma",
-                help="Slide to change the moving average window in real-time"
-            )
             
-            # Calculate moving average using the interactive window
-            sma = analyzer.calculate_simple_moving_average(interactive_sma_window)
+            # Check if we have enough data for moving average calculation
+            if len(data) < 2:
+                st.error(f"Insufficient data for moving average calculation. Only {len(data)} day(s) available. Need at least 2 days.")
+                st.stop()
+            
+            # Ensure the slider max value doesn't exceed data length
+            max_window = min(100, len(data))
+            min_window = min(5, max_window)  # Ensure min doesn't exceed max for very small datasets
+            default_window = min(20, max_window)  # Ensure default doesn't exceed max
+            
+            # Only show slider if we have enough data and min < max
+            if max_window > min_window:
+                interactive_sma_window = st.slider(
+                    "Moving Average Days:",
+                    min_value=min_window,
+                    max_value=max_window,
+                    value=default_window,
+                    step=1,
+                    key="interactive_sma",
+                    help="Slide to change the moving average window in real-time"
+                )
+            else:
+                st.warning(f"Limited data available ({len(data)} days). Using all available data for moving average.")
+                interactive_sma_window = len(data)  # Use all available data
+            
+            # Calculate moving average using the interactive window with error handling
+            try:
+                sma = analyzer.calculate_simple_moving_average(interactive_sma_window)
+            except ValueError as e:
+                st.error(f"Error calculating moving average: {str(e)}")
+                st.warning("Please adjust the moving average window size.")
+                st.stop()
             
             # Create the chart
             fig, ax = plt.subplots(figsize=(12, 6))

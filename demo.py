@@ -1,30 +1,63 @@
 #!/usr/bin/env python3
 """
-Demo Tool
-This script combines comprehensive demonstration and validation functionality
-with user interface options and automatic dependency management.
+Comprehensive Demo and Validation Tool for Stock Analysis System
+
+This script provides a complete demonstration and validation platform for the
+FinancialTrendAnalyzer system. It combines interactive demonstrations, comprehensive
+testing, and educational content into a single, user-friendly interface.
+
+Key Features:
+- Interactive demo with user choice of stocks and time periods
+- Comprehensive validation testing with detailed results
+- Multi-stock analysis with comparative insights
+- Educational content explaining algorithms and concepts
+- Automatic dependency management and setup
+- Professional visualization and reporting
+
+The demo tool serves multiple purposes:
+1. Educational: Teaches users about financial analysis concepts
+2. Validation: Proves algorithm correctness with test cases
+3. Demonstration: Shows all system capabilities
+4. Testing: Provides comprehensive testing framework
 
 Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
 INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
-# Auto-install dependencies if missing
+# Auto-install dependencies if missing - ensures all required packages are available
 from package.dependency_manager import ensure_dependencies
 ensure_dependencies()
 
-# Now import everything
-from combined_analyzer import FinancialTrendAnalyzer
-from validation import validate_all_calculations
+# Import core analysis components
+from combined_analyzer import FinancialTrendAnalyzer  # Main analysis class with all functionality
+from validation import validate_all_calculations  # Comprehensive validation testing
+
+# Import visualization and data processing libraries
 import matplotlib
-matplotlib.use('TkAgg')  # Use TkAgg backend for better display
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-import seaborn as sns  # For matplotlib style compatibility
+matplotlib.use('TkAgg')  # Use TkAgg backend for better display compatibility
+import matplotlib.pyplot as plt  # Primary plotting library
+import pandas as pd  # Data manipulation and analysis
+import numpy as np  # Numerical computations
+import seaborn as sns  # Enhanced matplotlib styling and statistical plots
 
 
 def show_main_menu():
-    """Display the main menu options"""
+    """
+    Display the main menu with all available options.
+    
+    This function presents the user with a clear, formatted menu showing
+    all available demo and validation options. It provides a professional
+    interface for navigating the different functionalities of the system.
+    
+    Menu Options:
+        1. Interactive Demo: User chooses stocks and sees plots
+        2. Validation Tests Only: Run comprehensive algorithm testing
+        3. Comprehensive Demo: Full automated demonstration
+        4. Exit: Close the application
+    
+    The menu uses visual separators and emojis to make it user-friendly
+    and easy to navigate.
+    """
     print("\n" + "="*80)
     print("🎯 STOCK ANALYSIS - DEMO & VALIDATION TOOL")
     print("="*80)
@@ -37,7 +70,24 @@ def show_main_menu():
 
 
 def run_validation_only():
-    """Run only validation tests"""
+    """
+    Execute comprehensive validation tests to verify algorithm correctness.
+    
+    This function runs all validation tests to ensure that every algorithm
+    in the FinancialTrendAnalyzer is working correctly. It provides detailed
+    information about what tests are being performed and what they validate.
+    
+    Validation Coverage:
+        - SMA validation against pandas reference implementation
+        - Daily returns validation against pandas pct_change()
+        - Runs analysis validation with real stock data
+        - Synthetic data validation with known expected results
+        - Max profit algorithm validation with simple test cases
+        - Edge case testing for error handling
+    
+    The function provides educational context about what each test validates
+    and why it's important for ensuring algorithm correctness.
+    """
     print("\n🔍 RUNNING VALIDATION TESTS")
     print("-" * 50)
     print("""
@@ -62,7 +112,24 @@ def run_validation_only():
 
 
 def run_comprehensive_demo():
-    """Run the full automated demonstration"""
+    """
+    Execute a complete automated demonstration of all system capabilities.
+    
+    This function provides a comprehensive showcase of the entire FinancialTrendAnalyzer
+    system, including validation testing, multi-stock analysis, detailed reporting,
+    and educational content. It demonstrates the full range of capabilities in
+    a structured, educational format.
+    
+    Demo Components:
+        1. Validation Testing: Ensures all algorithms work correctly
+        2. Multi-Stock Analysis: Analyzes multiple popular stocks
+        3. Detailed Analysis: Deep dive into Apple stock with comprehensive report
+        4. Algorithm Explanations: Educational content about financial concepts
+        5. Key Insights: Comparative analysis and market insights
+    
+    The demo is designed to be educational, showing users how to interpret
+    financial data and understand the algorithms behind the analysis.
+    """
     print("\n" + "="*80)
     print("STOCK MARKET TREND ANALYSIS - COMPREHENSIVE DEMONSTRATION")
     print("="*80)
@@ -224,7 +291,25 @@ def run_comprehensive_demo():
 
 
 def run_interactive_demo_with_plots():
-    """Run interactive demo where user chooses stocks and sees plots"""
+    """
+    Execute an interactive demonstration where users choose stocks and see visualizations.
+    
+    This function provides an interactive experience where users can:
+    - Choose from popular tech stocks or enter their own stock symbols
+    - Select different time periods for analysis
+    - View comprehensive analysis results for each stock
+    - See professional visualizations including price charts, runs analysis, and returns
+    
+    Interactive Features:
+        - Stock selection: Popular tech stocks or custom input
+        - Time period selection: 1y, 2y, 3y, 5y, or max
+        - Real-time analysis: Immediate results and statistics
+        - Professional visualizations: Price charts, runs, and returns
+        - User-friendly interface: Clear prompts and error handling
+    
+    The function handles user input validation and provides helpful error messages
+    for invalid stock symbols or other issues.
+    """
     print("\n🎮 INTERACTIVE DEMO WITH PLOTS")
     print("-" * 50)
     while True:
@@ -308,7 +393,23 @@ def run_interactive_demo_with_plots():
 
 
 def main():
-    """Main function with user interface"""
+    """
+    Main application entry point with comprehensive user interface.
+    
+    This function serves as the primary entry point for the demo and validation tool.
+    It provides a continuous loop interface where users can navigate between different
+    options and run various demonstrations and validations.
+    
+    Application Flow:
+        1. Display welcome message and main menu
+        2. Process user input and route to appropriate function
+        3. Handle user choices with proper error handling
+        4. Provide option to return to main menu or exit
+        5. Graceful exit with thank you message
+    
+    The function includes comprehensive error handling for invalid user input
+    and provides a user-friendly experience with clear prompts and feedback.
+    """
     print("🎯 STOCK ANALYSIS - DEMO & VALIDATION TOOL")
     print("Welcome! This tool demonstrates all features of the stock analysis system.")
     while True:

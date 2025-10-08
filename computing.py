@@ -32,7 +32,7 @@ class FinancialTrendAnalyzer:
         if window <= 0:  # Check if window size is invalid (zero or negative)
             raise ValueError("Window size must be positive")  # Raise error if invalid
         if window > len(self.market_data):  # Check if window is larger than available data
-            raise ValueError("Window size cannot be larger than data length")  # Raise error if too large
+            raise ValueError(f"Window size ({window}) cannot be larger than data length ({len(self.market_data)}). Please choose a smaller window size.")  # Raise error if too large
         
         return self.market_data['Close'].rolling(window=window).mean()  # Calculate rolling mean of closing prices
     

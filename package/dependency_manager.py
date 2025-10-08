@@ -1,42 +1,92 @@
 """
-Dependency Manager - Centralized dependency installation
-This module handles automatic installation of required packages
+Dependency Manager - Centralized dependency installation and management system
+
+This module provides comprehensive dependency management for the FinancialTrendAnalyzer
+project. It handles automatic detection, installation, and verification of all required
+Python packages, ensuring the system can run without manual package installation.
+
+Key Features:
+- Automatic package detection and installation
+- Version requirement management
+- Python version compatibility checking
+- Requirements.txt file support
+- Comprehensive error handling and user feedback
+- Setup validation and status reporting
+
+The dependency manager eliminates the need for users to manually install packages,
+making the system more accessible and reducing setup complexity.
 
 Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
 INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
-import subprocess
-import sys
-import importlib
-import os
-from typing import List, Dict, Optional
+# Import required modules for dependency management
+import subprocess  # For executing pip install commands
+import sys  # For Python version checking and executable path
+import importlib  # For dynamic module importing and testing
+import os  # For file system operations and path handling
+from typing import List, Dict, Optional  # Type hints for better code documentation
 
 class PackageDependencyManager:
-    """Centralized dependency management for the financial trend analysis tool"""
+    """
+    Centralized dependency management system for the financial trend analysis tool.
     
-    # Define all required packages with their versions
+    This class provides comprehensive package management functionality including
+    automatic detection, installation, and verification of all required dependencies.
+    It ensures that the FinancialTrendAnalyzer system can run without manual
+    package installation by users.
+    
+    Key Capabilities:
+        - Package detection and installation
+        - Version requirement management
+        - Python version compatibility checking
+        - Requirements.txt file processing
+        - Setup validation and status reporting
+    
+    The class uses a dictionary-based approach to manage package requirements,
+    making it easy to add, remove, or update dependencies as needed.
+    """
+    
+    # Define all required packages with their minimum version requirements
+    # These versions ensure compatibility and access to required features
     REQUIRED_PACKAGES = {
-        "streamlit": ">=1.28.0",
-        "yfinance": ">=0.2.18", 
-        "pandas": ">=1.5.0",
-        "numpy": ">=1.21.0",
-        "matplotlib": ">=3.5.0",
-        "plotly": ">=5.0.0",
-        "seaborn": ">=0.11.0"
+        "streamlit": ">=1.28.0",  # Web application framework for interactive UI
+        "yfinance": ">=0.2.18",   # Yahoo Finance API wrapper for stock data
+        "pandas": ">=1.5.0",      # Data manipulation and analysis library
+        "numpy": ">=1.21.0",      # Numerical computing and array operations
+        "matplotlib": ">=3.5.0",   # Comprehensive plotting and visualization
+        "plotly": ">=5.0.0",      # Interactive plotting and dashboards
+        "seaborn": ">=0.11.0"     # Statistical data visualization and styling
     }
     
     @classmethod
     def install_if_missing(cls, package: str, version: Optional[str] = None) -> bool:
         """
-        Install package if it's not already installed
+        Install a package if it's not already available in the system.
+        
+        This method checks if a package is installed by attempting to import it.
+        If the import fails, it automatically installs the package using pip.
+        The method handles both package names and version requirements.
         
         Args:
-            package: Package name to check/install
-            version: Optional version requirement
+            package (str): Name of the package to check/install
+            version (Optional[str]): Version requirement string (e.g., ">=1.5.0")
             
         Returns:
-            bool: True if package is available, False if installation failed
+            bool: True if package is available after installation attempt,
+                  False if installation failed or package is unavailable
+        
+        Installation Process:
+            1. Attempt to import the package
+            2. If import fails, construct pip install command
+            3. Execute pip install with appropriate version specification
+            4. Return success/failure status
+        
+        Error Handling:
+            - Network issues during installation
+            - Invalid package names
+            - Permission errors
+            - Version conflicts
         """
         try:
             # Try to import the package
@@ -171,9 +221,26 @@ class PackageDependencyManager:
         return len(cls.get_missing_packages()) == 0
 
 
-# Convenience functions for easy import
+# Convenience functions for easy import and use
 def ensure_dependencies(verbose: bool = True) -> bool:
-    """Quick function to ensure all dependencies are installed"""
+    """
+    Quick function to ensure all dependencies are installed and available.
+    
+    This is the main convenience function that users can call to ensure
+    all required packages are installed. It provides a simple interface
+    to the comprehensive dependency management system.
+    
+    Args:
+        verbose (bool): Whether to print installation progress messages
+        
+    Returns:
+        bool: True if all dependencies are available, False otherwise
+    
+    Usage:
+        # Ensure all dependencies are installed
+        from package.dependency_manager import ensure_dependencies
+        ensure_dependencies()
+    """
     results = PackageDependencyManager.ensure_all_dependencies(verbose)
     return all(results.values())
 

@@ -1,23 +1,72 @@
 """
 Validation module for verifying calculations of FinancialTrendAnalyzer.
+
+This module provides comprehensive validation testing to ensure all financial
+analysis algorithms are working correctly. It compares our implementations
+against trusted references like pandas and uses synthetic data with known
+expected results to verify algorithm correctness.
+
+Key Validation Features:
+- SMA validation against pandas rolling mean
+- Daily returns validation against pandas pct_change()
+- Runs analysis validation with real and synthetic data
+- Maximum profit algorithm validation with test cases
+- Edge case testing for error handling
+- Comprehensive test coverage with detailed output
+
+The validation system ensures that all calculations produce accurate results
+and handle edge cases gracefully, providing confidence in the analysis results.
+
 Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
 INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
 """
 
-import pandas as pd
-import numpy as np
-from combined_analyzer import FinancialTrendAnalyzer
+import pandas as pd  # For data manipulation and reference calculations
+import numpy as np  # For numerical operations and comparisons
+from combined_analyzer import FinancialTrendAnalyzer  # Import the composite analyzer
 
 
 def validate_all_calculations():  # VALIDATION FUNCTION
     """
-    This function will validate the calculations with test cases to ensure correctness.
+    Comprehensive validation function that tests all calculation methods.
+    
+    This function performs extensive testing of all financial analysis algorithms
+    to ensure they produce correct results. It includes multiple validation
+    approaches:
+    
+    1. Reference Validation: Compare against pandas implementations
+    2. Synthetic Data Testing: Use known data with expected results
+    3. Edge Case Testing: Test error handling and boundary conditions
+    4. Real Data Testing: Validate with actual stock market data
+    
+    Validation Tests:
+        - Test 1: SMA validation against pandas rolling mean
+        - Test 2: Daily returns validation against pandas pct_change()
+        - Test 3: Runs analysis validation with real stock data
+        - Test 3.5: Synthetic data validation for runs/streaks
+        - Test 4: Max profit algorithm validation with simple test case
+        - Test 5: Edge case validation (error handling)
+    
+    Output:
+        - Detailed test results with pass/fail status
+        - Side-by-side comparisons where applicable
+        - Clear indication of any failures or discrepancies
+    
+    Example:
+        # Run all validation tests
+        validate_all_calculations()
+        
+        # This will output detailed test results for all algorithms
+    
+    Note:
+        All tests use numpy.allclose() for floating-point comparisons
+        with appropriate tolerance levels to account for numerical precision.
     """
     print("\n" + "="*60)
     print("VALIDATION TESTS")
     print("="*60)
     
-    # Test with a well-known stock
+    # Test with a well-known stock (Apple Inc.)
     try:
         analyzer = FinancialTrendAnalyzer("AAPL", "1y")
         
@@ -28,7 +77,7 @@ def validate_all_calculations():  # VALIDATION FUNCTION
         sma_5_pandas = analyzer.market_data['Close'].rolling(window=5).mean()
         sma_match = np.allclose(sma_5.dropna(), sma_5_pandas.dropna(), rtol=1e-10)
         
-        # Show side-by-side comparison
+        # Show side-by-side comparison for transparency
         comparison_df = pd.DataFrame({
             'Your SMA(5)': sma_5.tail(10),
             'Pandas SMA(5)': sma_5_pandas.tail(10)
@@ -44,7 +93,7 @@ def validate_all_calculations():  # VALIDATION FUNCTION
         returns_pandas = analyzer.market_data['Close'].pct_change() * 100
         returns_match = np.allclose(returns_custom.dropna(), returns_pandas.dropna(), rtol=1e-10)
         
-        # Show side-by-side comparison
+        # Show side-by-side comparison for transparency
         returns_df = pd.DataFrame({
             'Your Returns (%)': returns_custom.tail(10),
             'Pandas Returns (%)': returns_pandas.tail(10)
@@ -71,7 +120,7 @@ def validate_all_calculations():  # VALIDATION FUNCTION
         synthetic_analyzer.market_data = pd.DataFrame({'Close': synthetic_prices})
         synthetic_runs = synthetic_analyzer.analyze_price_runs()
         
-        # Expected results based on synthetic data
+        # Expected results based on synthetic data analysis
         expected_upward_runs = [3, 4]  # 3-day run (10->11->12->13), 4-day run (8->9->10->11->12)
         expected_downward_runs = [5]   # 5-day run (13->12->11->10->9->8)
         expected_total_upward_days = 7  # 3 + 4
@@ -92,7 +141,7 @@ def validate_all_calculations():  # VALIDATION FUNCTION
         print(f"Longest upward streak: {synthetic_runs['longest_upward_streak']} (expected: {expected_longest_upward})")
         print(f"Longest downward streak: {synthetic_runs['longest_downward_streak']} (expected: {expected_longest_downward})")
         
-        # Comprehensive validation
+        # Comprehensive validation of synthetic data
         synthetic_valid = (
             synthetic_runs['upward_runs'] == expected_upward_runs and
             synthetic_runs['downward_runs'] == expected_downward_runs and
