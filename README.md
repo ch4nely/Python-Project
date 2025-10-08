@@ -1,5 +1,22 @@
-# Group Members: Chanel, Do Tien Son, Marcus, Afiq, Hannah
-# INF1002 - PROGRAMMING FUNDAMENTALS, LAB-P13-3
+# Module: INF1002 Progrmaming Fundamentals
+# Group LAB-P13-3: Chanel, Do Tien Son, Marcus, Afiq, Hannah
+
+## Table of Contents
+- [Stock Market Analysis Tool](#stock-market-analysis-tool)
+- [Understanding the Results](#understanding-the-results)
+- [Requirements](#requirements)
+- [Getting Started](#getting-started)
+- [Architecture](#architecture)
+- [How to Use](#how-to-use)
+- [Project Files](#project-files)
+- [Using the Code Programmatically](#using-the-code-programmatically)
+  - [Create analyzer instance](#create-analyzer-instance)
+  - [Get analysis results](#get-analysis-results)
+  - [Visualize](#visualize)
+- [Troubleshooting](#troubleshooting)
+- [Edge Cases and Behavior](#edge-cases-and-behavior)
+- [Validation and Testing](#validation-and-testing)
+- [Support](#support)
 
 # Stock Market Analysis Tool
 A simple web application for analyzing stock market trends and patterns. 
@@ -24,6 +41,85 @@ Built with Python and Streamlit, this tool lets you explore;
 - **Dependencies**: Automatically installed via `package/dependency_manager.py`
 
 ## Getting Started
+
+## Architecture
+```mermaid
+classDiagram
+
+class DF_FinancialTrendAnalyzer {
+  +ticker_symbol
+  +time_period
+  +market_data
+  +__init__(symbol, period)
+  +_fetch_data()
+}
+
+class CP_FinancialTrendAnalyzer {
+  +calculate_simple_moving_average(window)
+  +analyze_price_runs()
+  +compute_daily_returns()
+  +calculate_maximum_profit()
+}
+
+class VIZ_FinancialTrendAnalyzer {
+  +visualize_price_and_sma(sma_window)
+  +visualize_price_runs()
+  +visualize_daily_returns()
+}
+
+class CA_FinancialTrendAnalyzer
+
+class RPT_FinancialTrendAnalyzer {
+  +create_comprehensive_report(sma_window)
+}
+
+class ValidationModule {
+  +validate_all_calculations()
+}
+
+class DemoModule {
+  +show_main_menu()
+  +run_validation_only()
+  +run_comprehensive_demo()
+  +run_interactive_demo_with_plots()
+  +main()
+}
+
+class PDM_PackageDependencyManager {
+  +install_if_missing(package, version)
+  +ensure_all_dependencies(verbose)
+  +install_from_requirements(requirements_file)
+  +check_python_version(min_version)
+  +get_missing_packages()
+  +is_fully_configured()
+}
+
+class PDM_DependencyHelpers {
+  +ensure_dependencies(verbose)
+  +install_missing_packages()
+  +check_setup()
+  +setup_main()
+}
+
+class WebAppModule
+
+
+%% Relationships
+CA_FinancialTrendAnalyzer --|> DF_FinancialTrendAnalyzer
+CA_FinancialTrendAnalyzer --|> CP_FinancialTrendAnalyzer
+CA_FinancialTrendAnalyzer --|> VIZ_FinancialTrendAnalyzer
+RPT_FinancialTrendAnalyzer --|> CA_FinancialTrendAnalyzer
+
+DemoModule ..> CA_FinancialTrendAnalyzer : uses
+DemoModule ..> ValidationModule : calls
+WebAppModule ..> CA_FinancialTrendAnalyzer : uses
+WebAppModule ..> ValidationModule : calls
+
+DemoModule ..> PDM_DependencyHelpers : ensure_dependencies()
+WebAppModule ..> PDM_DependencyHelpers : ensure_dependencies()
+PDM_DependencyHelpers ..> PDM_PackageDependencyManager : calls
+
+```
 
 ### Quick Start (Windows)
 Double-click `start_stock_analysis.bat` to automatically install dependencies and launch the application.
