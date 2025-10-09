@@ -236,7 +236,7 @@ class FinancialTrendAnalyzer:
         # Top panel: Histogram of daily returns distribution
         ax1.hist(daily_returns_data.dropna(), bins=50, alpha=0.7, 
                 color='skyblue', edgecolor='black')
-        ax1.set_title(f'{self.ticker_symbol} Daily Returns Distribution', fontsize=14)
+        ax1.set_title(f'{self.ticker_symbol} Daily Returns Distribution', fontsize=12)  # Reduced font size
         ax1.set_xlabel('Daily Returns (%)', fontsize=12)
         ax1.set_ylabel('Frequency', fontsize=12)
         ax1.grid(True, alpha=0.3)  # Add subtle grid
@@ -244,14 +244,15 @@ class FinancialTrendAnalyzer:
         # Bottom panel: Time series of daily returns
         ax2.plot(self.market_data.index, daily_returns_data, 
                 color='purple', linewidth=1)
-        ax2.set_title(f'{self.ticker_symbol} Daily Returns Over Time', fontsize=14)
+        ax2.set_title(f'{self.ticker_symbol} Daily Returns Over Time', fontsize=12)  # Reduced font size
         ax2.set_xlabel('Date', fontsize=12)
         ax2.set_ylabel('Daily Returns (%)', fontsize=12)
         ax2.grid(True, alpha=0.3)  # Add subtle grid
         ax2.axhline(y=0, color='red', linestyle='--', alpha=0.5)  # Zero line reference
         
-        # Adjust layout to prevent overlap
-        plt.tight_layout()
+        # Adjust layout to prevent overlap with more padding
+        plt.tight_layout(pad=2.0)  # Increased padding
+        plt.subplots_adjust(hspace=0.4)  # Add extra space between subplots
         plt.show()  # Display the dual-panel chart
 
 
